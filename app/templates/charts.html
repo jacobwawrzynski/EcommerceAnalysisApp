@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales Analysis</title>
+</head>
+<body>
+    <h1>Sales Analysis Dashboard</h1>
+    
+    <h2>Sales by Category</h2>
+    <img src="data:image/png;base64,{{ sales_by_category }}" alt="Sales by Category">
+    
+    <h2>Customer Purchase Frequency</h2>
+    <img src="data:image/png;base64,{{ customer_frequency }}" alt="Customer Purchase Frequency">
+    
+    <h2>Monthly Sales Trend</h2>
+    <div id="monthly-sales-chart"></div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        var monthlyData = JSON.parse('{{ monthly_sales_chart | safe }}');
+        Plotly.newPlot('monthly-sales-chart', monthlyData.data, monthlyData.layout);
+    </script>
+</body>
+</html>
