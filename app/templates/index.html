@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Online Shop Analytics</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Styles/style.css') }}">
+    <title>E-commerce Analysis</title>
 </head>
+
 <body>
-    <h1>Online Shop Database Tables</h1>
+    <!-- <h1>Online Shop Database Tables</h1>
     <ul>
         {% for table in tables %}
         <li>{{ table }}</li>
         {% endfor %}
     </ul>
-    <a href="/sales-analysis">Go to Sales Analysis</a>
+    <a href="/sales-analysis">Go to Sales Analysis</a> -->
+
+    <h1>E-commerce Analysis</h1>
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/overview">Data Overview</a></li>
+            <li><a href="/charts">Charts</a></li>
+        </ul>
+    </div>
 </body>
+
 </html>

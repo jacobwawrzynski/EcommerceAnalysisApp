@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Sales Analysis</title>
+    <title>Messages analysis</title>
 </head>
+
 <body>
-    <h1>Sales Analysis Dashboard</h1>
-    
-    <h2>Sales by Category</h2>
+    <h1>Dashboard</h1>
+
+    <h2>Cate</h2>
     <img src="data:image/png;base64,{{ sales_by_category }}" alt="Sales by Category">
-    
-    <h2>Customer Purchase Frequency</h2>
+
+    <h2>Mess</h2>
     <img src="data:image/png;base64,{{ customer_frequency }}" alt="Customer Purchase Frequency">
-    
-    <h2>Monthly Sales Trend</h2>
+
+    <h2>X</h2>
     <div id="monthly-sales-chart"></div>
 
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -21,4 +23,5 @@
         Plotly.newPlot('monthly-sales-chart', monthlyData.data, monthlyData.layout);
     </script>
 </body>
+
 </html>

@@ -22,16 +22,9 @@ def create_app():
         # Connect to database
         db = DatabaseConnection()
         
-        # Execute complex sales analysis query
         sales_query = """
-        SELECT 
-            o.OrderTimestamp,
-            o.Total,
-            a.Category,
-            a.Gender
-        FROM Orders o
-        JOIN OrderPositions op ON o.Id = op.OrderId
-        JOIN Articles a ON op.ArticleId = a.Id
+        SELECT TOP (10) s.Category
+        FROM Messages s
         """
         
         sales_df = db.get_dataframe(sales_query)
