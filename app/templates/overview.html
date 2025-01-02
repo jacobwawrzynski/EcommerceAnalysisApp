@@ -23,6 +23,25 @@
             <li><a href="/charts">Charts</a></li>
         </ul>
     </div>
+    <div class="overview-container">
+        <table>
+            <tr>
+                <th colspan="3">Database content</th>
+            </tr>
+            <tr>
+                <th>Entity name</th>
+                <th>Records</th>
+                <th>Description</th>
+            </tr>
+            {% for row in database_content %}
+            <tr>
+                <td>{{ row.entity_name }}</td>
+                <td>{{ row.records }}</td>
+                <td>{{ row.description }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
 
 </html>

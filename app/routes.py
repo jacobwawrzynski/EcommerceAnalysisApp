@@ -14,8 +14,12 @@ def create_app():
         tables = db.get_table_names()
         return render_template('index.html', tables=tables)
     
-    @app.route('/sales-analysis')
-    def sales_analysis():
+    @app.route('/overview')
+    def overview():
+        return render_template('overview.html')
+    
+    @app.route('/charts')
+    def charts():
         """
         Sales analysis page with multiple visualizations
         """
