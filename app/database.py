@@ -34,16 +34,22 @@ class DatabaseConnection:
             return None
 
     def get_table_names(self):
-        """
-        Retrieve all table names in the database
-        
-        Returns:
-            list: Table names
-        """
         query = """
-        SELECT TABLE_NAME 
-        FROM INFORMATION_SCHEMA.TABLES 
-        WHERE TABLE_TYPE = 'BASE TABLE'
+        SELECT
+        t.TABLE_NAME AS entity_name,
+        CONVERT(VARCHAR(20), p.rows) AS records,
+        'No description available' AS description
+        FROM 
+        INFORMATION_SCHEMA.TABLES t
+        LEFT JOIN 
+        sys.tables st ON t.TABLE_NAME = st.name
+        LEFT JOIN 
+        sys.partitions p ON st.object_id = p.object_id 
+        AND p.index_id IN (0, 1)
+        LEFT JOIN 
+        sys.extended_properties ep ON st.object_id = ep.major_id 
+        AND ep.minor_id = 0 
+        AND ep.name = 'MS_Description'
         """
         tables = pd.read_sql(query, self.engine)
-        return tables['TABLE_NAME'].tolist()
+        return tables.to_dict(orient='records')

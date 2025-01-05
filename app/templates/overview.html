@@ -14,7 +14,6 @@
         {% endfor %}
     </ul>
     <a href="/sales-analysis">Go to Sales Analysis</a> -->
-
     <div class="sidebar">
         <h2>Navigation</h2>
         <ul>
@@ -30,14 +29,14 @@
             </tr>
             <tr>
                 <th>Entity name</th>
-                <th>Records</th>
+                <th>Records count</th>
                 <th>Description</th>
             </tr>
-            {% for row in database_content %}
+            {% for table in tables %}
             <tr>
-                <td>{{ row.entity_name }}</td>
-                <td>{{ row.records }}</td>
-                <td>{{ row.description }}</td>
+                <td>{{ table.entity_name }}</td>
+                <td>{{ table.records }}</td>
+                <td>{{ table.description }}</td>
             </tr>
             {% endfor %}
         </table>

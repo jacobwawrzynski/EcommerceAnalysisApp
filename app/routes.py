@@ -7,41 +7,42 @@ def create_app():
     
     @app.route('/')
     def index():
-        """
-        Main index page showing available database tables
-        """
-        db = DatabaseConnection()
-        tables = db.get_table_names()
-        return render_template('index.html', tables=tables)
+        return render_template('index.html')
     
     @app.route('/overview')
     def overview():
-        return render_template('overview.html')
+        """
+        Data overview page showing available database tables
+        """
+        db = DatabaseConnection()
+        tables = db.get_table_names()
+        return render_template('overview.html', tables=tables)
     
     @app.route('/charts')
     def charts():
-        """
-        Sales analysis page with multiple visualizations
-        """
-        # Connect to database
-        db = DatabaseConnection()
+        pass
+        # """
+        # Sales analysis page with multiple visualizations
+        # """
+        # # Connect to database
+        # db = DatabaseConnection()
         
-        sales_query = """
-        SELECT TOP (10) s.Category
-        FROM Messages s
-        """
+        # sales_query = """
+        # SELECT TOP (10) s.Category
+        # FROM Messages s
+        # """
         
-        sales_df = db.get_dataframe(sales_query)
+        # sales_df = db.get_dataframe(sales_query)
         
-        if sales_df is not None:
-            visualizer = DataVisualizer(sales_df)
+        # if sales_df is not None:
+        #     visualizer = DataVisualizer(sales_df)
             
-            return render_template('charts.html', 
-                sales_by_category=visualizer.sales_by_category(),
-                customer_frequency=visualizer.customer_purchase_frequency(),
-                monthly_sales_chart=visualizer.interactive_sales_by_month()
-            )
+        #     return render_template('charts.html', 
+        #         sales_by_category=visualizer.sales_by_category(),
+        #         customer_frequency=visualizer.customer_purchase_frequency(),
+        #         monthly_sales_chart=visualizer.interactive_sales_by_month()
+        #     )
         
-        return "Error loading data", 500
+        # return "Error loading data", 500
 
     return app
