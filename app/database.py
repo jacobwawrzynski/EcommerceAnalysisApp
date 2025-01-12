@@ -38,7 +38,7 @@ class DatabaseConnection:
         SELECT
         t.TABLE_NAME AS entity_name,
         CONVERT(VARCHAR(20), p.rows) AS records,
-        'No description available' AS description
+        td.description AS description
         FROM 
         INFORMATION_SCHEMA.TABLES t
         LEFT JOIN 
@@ -50,6 +50,9 @@ class DatabaseConnection:
         sys.extended_properties ep ON st.object_id = ep.major_id 
         AND ep.minor_id = 0 
         AND ep.name = 'MS_Description'
+        JOIN 
+        tables_description td on td.name=t.TABLE_NAME
         """
         tables = pd.read_sql(query, self.engine)
         return tables.to_dict(orient='records')
+    
