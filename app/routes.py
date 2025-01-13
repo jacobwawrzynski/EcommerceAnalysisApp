@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify
-from .database import DatabaseConnection
+from .database import DatabaseConnectionMessages, AmazonDatabaseConnection
 from .visualizations import DataVisualizer
 
 def create_app():
@@ -9,14 +9,24 @@ def create_app():
     def index():
         return render_template('index.html')
     
-    @app.route('/overview')
-    def overview():
+    @app.route('/overview-messages')
+    def overview_messages():
         """
         Data overview page showing available database tables
         """
-        db = DatabaseConnection()
+        db = DatabaseConnectionMessages()
         tables = db.get_table_names()
-        return render_template('overview.html', tables=tables)
+        return render_template('overview-messages.html', tables=tables)
+    
+    @app.route('/overview-amazon')
+    def overview_amazon():
+        """
+        Data overview page showing available database tables
+        """
+        
+    @app.route('/most-popular-products')
+    def most_popular_products():
+        pass
     
     @app.route('/charts')
     def charts():

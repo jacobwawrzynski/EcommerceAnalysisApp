@@ -29,7 +29,8 @@ body {
   display: block;
 }
 
-.sidebar h2 {
+.sidebar h2,
+h3 {
   margin: 10px 15px;
   color: white;
 }

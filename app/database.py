@@ -4,9 +4,8 @@ import pandas as pd
 from sqlalchemy import create_engine
 import urllib
 
-class DatabaseConnection:
+class DatabaseConnectionMessages:
     def __init__(self, server='localhost', database='e_commerce'):
-        # Connection string for SQL Server using pyodbc
         params = urllib.parse.quote_plus(
             f'DRIVER={{ODBC Driver 17 for SQL Server}};'
             f'SERVER={server};'
@@ -14,7 +13,6 @@ class DatabaseConnection:
             'Trusted_Connection=yes;'
         )
         
-        # SQLAlchemy engine
         self.engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
 
     def get_dataframe(self, query):
@@ -55,4 +53,21 @@ class DatabaseConnection:
         """
         tables = pd.read_sql(query, self.engine)
         return tables.to_dict(orient='records')
+
+# class AmazonDataset:
+#     def __init__(self, file_path='../data/amazon.xlsx'):
+#         self.file_path = file_path
+#         self.data = self._load_data()
+
+#     def _load_data(self):
+#         try:
+#             return pd.read_excel(self.file_path, engine='openpyxl')
+#         except Exception as e:
+#             print(f"Error loading Excel file: {e}")
+#             return None
     
+#     def get_first_ten_rows(self):
+#         if self.data is not None:
+#             return self.data.head(10)
+#         return None
+        
