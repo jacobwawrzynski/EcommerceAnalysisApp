@@ -54,20 +54,35 @@ class DatabaseConnectionMessages:
         tables = pd.read_sql(query, self.engine)
         return tables.to_dict(orient='records')
 
-# class AmazonDataset:
-#     def __init__(self, file_path='../data/amazon.xlsx'):
-#         self.file_path = file_path
-#         self.data = self._load_data()
+class DatabaseConnectionAmazon:
+    def __init__(self, server='localhost', database='amazon_data'):
+        params = urllib.parse.quote_plus(
+            f'DRIVER={{ODBC Driver 17 for SQL Server}};'
+            f'SERVER={server};'
+            f'DATABASE={database};'
+            'Trusted_Connection=yes;'
+        )
+        
+        self.engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
 
-#     def _load_data(self):
-#         try:
-#             return pd.read_excel(self.file_path, engine='openpyxl')
-#         except Exception as e:
-#             print(f"Error loading Excel file: {e}")
-#             return None
-    
-#     def get_first_ten_rows(self):
-#         if self.data is not None:
-#             return self.data.head(10)
-#         return None
+    def get_table_names(self):
+        query = """
+        SELECT
+        t.TABLE_NAME AS entity_name,
+        CONVERT(VARCHAR(20), p.rows) AS records,
+        'not available' AS description
+        FROM 
+        INFORMATION_SCHEMA.TABLES t
+        LEFT JOIN 
+        sys.tables st ON t.TABLE_NAME = st.name
+        LEFT JOIN 
+        sys.partitions p ON st.object_id = p.object_id 
+        AND p.index_id IN (0, 1)
+        LEFT JOIN 
+        sys.extended_properties ep ON st.object_id = ep.major_id 
+        AND ep.minor_id = 0 
+        AND ep.name = 'MS_Description'
+        """
+        tables = pd.read_sql(query, self.engine)
+        return tables.to_dict(orient='records')
         

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Data Analysis App</title>
+</head>
+
+<body>
+    <!-- <h1>Tables</h1>
+    <ul>
+        {% for table in tables %}
+        <li>{{ table }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/sales-analysis">Go to Sales Analysis</a> -->
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li>MESSAGES</li>
+            <li><a href="/overview-messages">Data overview</a></li>
+            <li>AMAZON</li>
+            <li><a href="/most-popular-products">Most popular</a></li>
+        </ul>
+    </div>
+    <div class="overview-container">
+        <table>
+            <tr>
+                <th colspan="3">Database content</th>
+            </tr>
+            <tr>
+                <th>Entity name</th>
+                <th>Records count</th>
+                <th>Description</th>
+            </tr>
+            {% for table in tables %}
+            <tr>
+                <td>{{ table.entity_name }}</td>
+                <td>{{ table.records }}</td>
+                <td>{{ table.description }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+
+</html>
