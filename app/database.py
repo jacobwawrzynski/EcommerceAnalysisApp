@@ -70,7 +70,7 @@ class DatabaseConnectionAmazon:
         SELECT
         t.TABLE_NAME AS entity_name,
         CONVERT(VARCHAR(20), p.rows) AS records,
-        'not available' AS description
+        td.description AS description
         FROM 
         INFORMATION_SCHEMA.TABLES t
         LEFT JOIN 
@@ -82,7 +82,27 @@ class DatabaseConnectionAmazon:
         sys.extended_properties ep ON st.object_id = ep.major_id 
         AND ep.minor_id = 0 
         AND ep.name = 'MS_Description'
+        JOIN 
+        tables_description td on td.name=t.TABLE_NAME
         """
         tables = pd.read_sql(query, self.engine)
         return tables.to_dict(orient='records')
+    
+    def get_most_popular_products(self):
+        query = """
+        select TOP(10)
+        Product_id as Product
+        ,Product_name as Name
+        ,CONVERT(INT, Rating) as Rating
+        ,CONVERT(INT, Rating_count) as RatingCount
+        from Sales
+        group by Product_id
+        ,Product_name
+        ,Rating_count
+        ,Rating
+        having COUNT(Rating_count) = 1
+        order by CONVERT(INT, Rating_count) desc
+        """
+        result = pd.read_sql(query, self.engine)
+        return result.to_dict()
         

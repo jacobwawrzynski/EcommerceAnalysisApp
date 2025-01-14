@@ -72,3 +72,9 @@ h3 {
 .overview-container tr:hover {
   background-color: #f1f1f1;
 }
+
+.bar-chart {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: transparent;
+}

@@ -1,6 +1,10 @@
 from flask import Flask, render_template, jsonify
 from .database import DatabaseConnectionMessages, DatabaseConnectionAmazon
 from .visualizations import DataVisualizer
+import pandas as pd
+import matplotlib.pyplot as plt
+import io
+import base64
 
 def create_app():
     app = Flask(__name__)
@@ -14,38 +18,31 @@ def create_app():
         db = DatabaseConnectionMessages()
         tables = db.get_table_names()
         return render_template('overview-messages.html', tables=tables)
-        
-    @app.route('/most-popular-products')
-    def most_popular_products():
-        db = DatabaseConnectionAmazon()
-        tables = db.get_table_names()
-        return render_template('most-popular-products.html', tables=tables)
     
-    @app.route('/charts')
-    def charts():
-        pass
-        # """
-        # Sales analysis page with multiple visualizations
-        # """
-        # # Connect to database
-        # db = DatabaseConnection()
+    @app.route('/most-popular-products')
+    def get_most_popular_products():
+        db = DatabaseConnectionAmazon()
+        result = db.get_most_popular_products()
         
-        # sales_query = """
-        # SELECT TOP (10) s.Category
-        # FROM Messages s
-        # """
+        df = pd.DataFrame(result)
         
-        # sales_df = db.get_dataframe(sales_query)
+        plt.figure(figsize=(12, 10))
+        plt.bar(df["Name"], df["RatingCount"], color='skyblue')
+        plt.ylim(300000, 450000)
+        plt.xlabel("Product Name")
+        plt.ylabel("Rating Count")
+        plt.xticks(rotation=35, ha='right')
+        #plt.title("Top 5 Best-Selling Products")
+        plt.tight_layout()
+
+        img = io.BytesIO()
+        plt.savefig(img, format='png')
+        img.seek(0)
+        chart = base64.b64encode(img.getvalue()).decode('utf8')
         
-        # if sales_df is not None:
-        #     visualizer = DataVisualizer(sales_df)
-            
-        #     return render_template('charts.html', 
-        #         sales_by_category=visualizer.sales_by_category(),
-        #         customer_frequency=visualizer.customer_purchase_frequency(),
-        #         monthly_sales_chart=visualizer.interactive_sales_by_month()
-        #     )
+        # Clearing the plot, causing crash
+        #plt.close()
         
-        # return "Error loading data", 500
+        return render_template('most-popular-products.html', chart=chart)
 
     return app
