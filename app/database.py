@@ -53,6 +53,16 @@ class DatabaseConnectionMessages:
         """
         tables = pd.read_sql(query, self.engine)
         return tables.to_dict(orient='records')
+    
+    def get_messages_types(self):
+        query = """
+        select top(10000) 
+		Email_provider as EmailProvider
+		,Message_type as MessageType
+		from Messages
+        """
+        result = pd.read_sql(query, self.engine)
+        return result.to_dict()
 
 class DatabaseConnectionAmazon:
     def __init__(self, server='localhost', database='amazon_data'):
@@ -105,4 +115,16 @@ class DatabaseConnectionAmazon:
         """
         result = pd.read_sql(query, self.engine)
         return result.to_dict()
-        
+    
+    def get_basic_statistics(self):
+        query = """
+        select CONVERT(INT,Discounted_price) as DiscountPrice
+		,CONVERT(INT,Actual_price) as ActualPrice
+		,CONVERT(INT,Discount_percentage) as DiscountPercentage
+		,CONVERT(INT,Rating) as Rating
+		,CONVERT(INT,Rating_count) as RatingCount
+		from Sales
+        """
+        result = pd.read_sql(query, self.engine)
+        return result.to_dict()
+    

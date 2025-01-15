@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Data Analysis App</title>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li>
+                <h3>Messages</h3>
+            </li>
+            <li><a href="/overview-messages">Data overview</a></li>
+            <li><a href="/messages-types">Messages types</a></li>
+            <li>
+                <h3>Amazon</h3>
+            </li>
+            <li><a href="/most-popular-products">Most popular</a></li>
+            <li><a href="/amazon-basic-statistics">General statistics</a></li>
+        </ul>
+    </div>
+
+    <div class="overview-container">
+        <h1>Basic Statistics</h1>
+        <table class="data-table">
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Average Rating</td>
+                <td>{{ "%.2f"|format(result.avg_rating) }}</td>
+            </tr>
+            <tr>
+                <td>Average Rating Count</td>
+                <td>{{ "%.0f"|format(result.avg_rating_count) }}</td>
+            </tr>
+            <tr>
+                <td>Median Rating</td>
+                <td>{{ "%.2f"|format(result.median_rating) }}</td>
+            </tr>
+            <tr>
+                <td>Median Rating Count</td>
+                <td>{{ "%.0f"|format(result.median_rating_count) }}</td>
+            </tr>
+            <tr>
+                <td>Average Discount</td>
+                <td>{{ "%.2f"|format(result.avg_discount_perc) }}%</td>
+            </tr>
+            <tr>
+                <td>Median Discount</td>
+                <td>{{ "%.2f"|format(result.median_discount_perc) }}%</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+
+</html>
