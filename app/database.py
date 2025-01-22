@@ -128,3 +128,27 @@ class DatabaseConnectionAmazon:
         result = pd.read_sql(query, self.engine)
         return result.to_dict()
     
+    def get_best_reviews(self):
+        query = """
+        select top(10) Review_title as Review
+        from Sales
+        where Product_id in (
+        select Product_id
+        from Sales
+        where convert(int,Rating) > 40 
+        )
+        """
+        result = pd.read_sql(query, self.engine)
+        return result.to_dict(orient='records')
+    
+    def get_price_differences(self):
+        query = """
+        select top(10) 
+        Product_name as Name
+        ,Discount_percentage as DiscountPercentage
+        ,(cast(Actual_price as int) - cast(Discounted_price as int)) as PriceDifference
+        from Sales
+        order by PriceDifference desc
+        """
+        result = pd.read_sql(query, self.engine)
+        return result.to_dict()

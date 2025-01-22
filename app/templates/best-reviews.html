@@ -26,10 +26,17 @@
         </ul>
     </div>
     <div class="overview-container">
-        <div class="bar-chart">
-            <h1>Top 10 mosts popular products</h1>
-            <img src="data:image/png;base64,{{ chart }}" alt="Bar Chart">
-        </div>
+        <h1>Reviews of the best products</h1>
+        <table class="data-table">
+            <tr>
+                <th>Reviews (part of the data has been lost due to ETL process)</th>
+            </tr>
+            {% for item in result %}
+            <tr>
+                <td>{{ item.Review }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 </body>
 
