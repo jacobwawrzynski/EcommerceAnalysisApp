@@ -16,15 +16,6 @@ class DatabaseConnectionMessages:
         self.engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
 
     def get_dataframe(self, query):
-        """
-        Execute SQL query and return as pandas DataFrame
-        
-        Args:
-            query (str): SQL query to execute
-        
-        Returns:
-            pd.DataFrame: Result of the query
-        """
         try:
             return pd.read_sql(query, self.engine)
         except Exception as e:

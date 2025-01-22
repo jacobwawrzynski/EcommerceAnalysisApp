@@ -39,11 +39,6 @@ def create_app():
         aggregated_counts.plot(kind='pie', autopct='%1.1f%%')
         plt.title('Distribution of Email Providers')
         plt.ylabel('')
-        
-        # First pie chart for EmailProvider
-        # plt.subplot(1, 2, 1)
-        # df['EmailProvider'].value_counts().plot(kind='pie', autopct='%1.1f%%')
-        # plt.title('Distribution of Email Providers')
 
         plt.subplot(1, 2, 2)
         df['MessageType'].value_counts().plot(kind='pie', autopct='%1.1f%%')

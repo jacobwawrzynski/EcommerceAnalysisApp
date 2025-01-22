@@ -11,12 +11,6 @@ class DataVisualizer:
         self.df = dataframe
 
     def sales_by_category(self):
-        """
-        Create a bar chart of sales by product category
-        
-        Returns:
-            str: Base64 encoded image of the plot
-        """
         plt.figure(figsize=(10, 6))
         sales_by_category = self.df.groupby('Category')['Total'].sum().sort_values(ascending=False)
         sales_by_category.plot(kind='bar')
@@ -29,12 +23,6 @@ class DataVisualizer:
         return self._plt_to_base64()
 
     def customer_purchase_frequency(self):
-        """
-        Create a histogram of customer purchase frequencies
-        
-        Returns:
-            str: Base64 encoded image of the plot
-        """
         plt.figure(figsize=(10, 6))
         purchase_counts = self.df['CustomerId'].value_counts()
         purchase_counts.plot(kind='hist', bins=10)
@@ -46,12 +34,6 @@ class DataVisualizer:
         return self._plt_to_base64()
 
     def interactive_sales_by_month(self):
-        """
-        Create an interactive line chart of monthly sales using Plotly
-        
-        Returns:
-            dict: Plotly figure configuration
-        """
         # Convert OrderTimestamp to datetime
         self.df['OrderMonth'] = pd.to_datetime(self.df['OrderTimestamp']).dt.to_period('M')
         monthly_sales = self.df.groupby('OrderMonth')['Total'].sum().reset_index()
@@ -67,12 +49,6 @@ class DataVisualizer:
         return fig.to_json()
 
     def _plt_to_base64(self):
-        """
-        Convert matplotlib plot to base64 encoded image
-        
-        Returns:
-            str: Base64 encoded image
-        """
         buffer = io.BytesIO()
         plt.savefig(buffer, format='png')
         buffer.seek(0)
